@@ -1,3 +1,5 @@
+require("./db/config.db");
+
 const express = require("express");
 const app = express();
 
@@ -5,9 +7,9 @@ const app = express();
 app.use(express.json());
 
 //rutas
-//http://localhost:3001/productos / 
+//http://localhost:3001/productos /
 app.use("/productos", require("./routes/productos.routes"));
-//http://localhost:3001/usuarios / 
+//http://localhost:3001/usuarios /
 app.use("/usuarios", require("./routes/usuarios.routes"));
 
 app.listen(3001, () => {

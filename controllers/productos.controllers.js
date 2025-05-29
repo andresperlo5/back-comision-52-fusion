@@ -6,25 +6,25 @@ const {
   eliminarUnProductoPorIdServices,
 } = require("../services/productos.services");
 
-const obtenerTodosLosProductos = (req, res) => {
-  const { productos, statusCode } = obtenerTodosLosProductosServices();
+const obtenerTodosLosProductos = async (req, res) => {
+  const { productos, statusCode } = await obtenerTodosLosProductosServices();
   res.status(statusCode).json({ productos });
 };
 
-const obtenerUnProductoPorID = (req, res) => {
-  const { producto, statusCode } = obtenerUnProductoPorIDServices(
+const obtenerUnProductoPorID = async (req, res) => {
+  const { producto, statusCode } = await obtenerUnProductoPorIDServices(
     req.params.id
   );
   res.status(statusCode).json({ producto });
 };
 
-const crearNuevoProducto = (req, res) => {
-  const { msg, statusCode } = crearNuevoProductoServices(req.body);
+const crearNuevoProducto = async (req, res) => {
+  const { msg, statusCode } = await crearNuevoProductoServices(req.body);
   res.status(statusCode).json({ msg });
 };
 
-const actualizarProductoPorID = (req, res) => {
-  const { msg, statusCode } = actualizarProductoPorIDServices(
+const actualizarProductoPorID = async (req, res) => {
+  const { msg, statusCode } = await actualizarProductoPorIDServices(
     req.params.id,
     req.body
   );
@@ -32,8 +32,10 @@ const actualizarProductoPorID = (req, res) => {
   res.status(statusCode).json({ msg });
 };
 
-const eliminarUnProductoPorId = (req, res) => {
-  const { msg, statusCode } = eliminarUnProductoPorIdServices(req.params.id);
+const eliminarUnProductoPorId = async (req, res) => {
+  const { msg, statusCode } = await eliminarUnProductoPorIdServices(
+    req.params.id
+  );
   res.status(statusCode).json({ msg });
 };
 

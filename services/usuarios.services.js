@@ -1,5 +1,6 @@
 const UsuariosModel = require("../models/usuarios.model");
 const argon = require("argon2");
+const jwt = require("jsonwebtoken");
 
 const obtenerTodosLosUsuariosServices = async () => {
   const usuarios = await UsuariosModel.find();
@@ -53,8 +54,17 @@ const iniciarSesionServices = async (body) => {
     };
   }
 
+  //TOKEN
+  const payload = {
+    idUsuario: usuarioExiste._id,
+    rolUsuario: usuarioExiste.rolUsuario,
+  };
+
+  const token = jwt.sign(payload, process.env.JWT_SECRET);
+
   return {
     msg: "Usuario Logueado",
+    token,
     statusCode: 200,
   };
 };

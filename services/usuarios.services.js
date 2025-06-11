@@ -65,6 +65,7 @@ const iniciarSesionServices = async (body) => {
   return {
     msg: "Usuario Logueado",
     token,
+    rol: usuarioExiste.rolUsuario,
     statusCode: 200,
   };
 };

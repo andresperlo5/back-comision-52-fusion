@@ -9,7 +9,7 @@ const {
 const authMiddleware = require("../middlewars/auth.middleware");
 const router = express.Router();
 
-router.get("/", authMiddleware("usuario"), obtenerTodosLosProductos);
+router.get("/", obtenerTodosLosProductos);
 router.get("/:id", obtenerUnProductoPorID);
 router.post("/", crearNuevoProducto);
 router.put("/:id", actualizarProductoPorID);

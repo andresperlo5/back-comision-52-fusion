@@ -23,8 +23,8 @@ const crearNuevoUsuario = async (req, res) => {
 };
 
 const iniciarSesion = async (req, res) => {
-  const { statusCode, msg, token } = await iniciarSesionServices(req.body);
-  res.status(statusCode).json({ msg, token });
+  const { statusCode, msg, token, rol } = await iniciarSesionServices(req.body);
+  res.status(statusCode).json({ msg, token, rol });
 };
 
 module.exports = {

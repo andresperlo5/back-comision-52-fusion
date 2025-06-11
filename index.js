@@ -2,9 +2,13 @@ require("./db/config.db");
 
 const express = require("express");
 const app = express();
+const cors = require("cors");
+const morgan = require("morgan");
 
 //middlewares
 app.use(express.json());
+app.use(cors());
+app.use(morgan("dev"));
 
 //rutas
 //http://localhost:3001/productos /

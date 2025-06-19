@@ -1,6 +1,7 @@
 const UsuariosModel = require("../models/usuarios.model");
 const argon = require("argon2");
 const jwt = require("jsonwebtoken");
+const CarritosModel = require("../models/carrito.model");
 
 const obtenerTodosLosUsuariosServices = async () => {
   const usuarios = await UsuariosModel.find();
@@ -20,14 +21,26 @@ const obtenerUnUsuarioPorIdServices = async (idUsuario) => {
 };
 
 const crearUsuarioServices = async (body) => {
-  const nuevoUsuario = new UsuariosModel(body);
-  nuevoUsuario.contrasenia = await argon.hash(nuevoUsuario.contrasenia);
-  await nuevoUsuario.save();
+  try {
+    const nuevoUsuario = new UsuariosModel(body);
+    const carritoUsuario = new CarritosModel({ idUsuario: nuevoUsuario._id });
 
-  return {
-    msg: "Usuario Creado",
-    statusCode: 201,
-  };
+    nuevoUsuario.contrasenia = await argon.hash(nuevoUsuario.contrasenia);
+    nuevoUsuario.idCarrito = carritoUsuario._id;
+
+    await nuevoUsuario.save();
+    await carritoUsuario.save();
+
+    return {
+      msg: "Usuario Creado",
+      statusCode: 201,
+    };
+  } catch (error) {
+    return {
+      error,
+      statusCode: 500,
+    };
+  }
 };
 
 const iniciarSesionServices = async (body) => {
@@ -57,6 +70,7 @@ const iniciarSesionServices = async (body) => {
   //TOKEN
   const payload = {
     idUsuario: usuarioExiste._id,
+    idCarrito: usuarioExiste.idCarrito,
     rolUsuario: usuarioExiste.rolUsuario,
   };
 

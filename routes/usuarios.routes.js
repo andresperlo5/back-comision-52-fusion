@@ -6,11 +6,31 @@ const {
   iniciarSesion,
 } = require("../controllers/usuarios.controllers");
 const router = Router();
+const { check } = require("express-validator");
 
 router.get("/", obtenerTodosLosUsuarios);
-router.get("/:id", obtenerUnUsuarioPorId);
+router.get(
+  "/:id",
+  [check("id", "ERROR: Formato de ID no corresponde a MongoDB").isMongoId()],
+  obtenerUnUsuarioPorId
+);
 
-router.post("/", crearNuevoUsuario);
+router.post(
+  "/",
+  [
+    check("nombreUsuario", "Campo NOMBRE Vacio").notEmpty(),
+    check("nombreUsuario", "ERROR: Maximo caracteres 30").isLength(
+      { min: 10 },
+      { max: 30 }
+    ),
+    check("emailUsuario", "Formato Incorrecto").isEmail(),
+    check(
+      "contrasenia",
+      "ERROR: Debe tener un minimo de 8 caracteres"
+    ).isLength({ min: 8 }),
+  ],
+  crearNuevoUsuario
+);
 router.post("/login", iniciarSesion);
 
 module.exports = router;

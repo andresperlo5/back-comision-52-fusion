@@ -15,6 +15,7 @@ app.use(morgan("dev"));
 app.use("/productos", require("./routes/productos.routes"));
 //http://localhost:3001/usuarios /
 app.use("/usuarios", require("./routes/usuarios.routes"));
+app.use("/carritos", require("./routes/carritos.routes"));
 
 app.listen(3001, () => {
   console.log("Servidor andando en el puerto: ", 3001);

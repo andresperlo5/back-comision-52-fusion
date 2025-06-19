@@ -21,6 +21,11 @@ const UsuarioSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+    /*  match:
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, */
+  },
+  idCarrito: {
+    type: String,
   },
 });
 

@@ -4,6 +4,7 @@ const {
   crearUsuarioServices,
   iniciarSesionServices,
 } = require("../services/usuarios.services");
+const { validationResult } = require("express-validator");
 
 const obtenerTodosLosUsuarios = async (req, res) => {
   const { statusCode, usuarios } = await obtenerTodosLosUsuariosServices();
@@ -11,6 +12,16 @@ const obtenerTodosLosUsuarios = async (req, res) => {
 };
 
 const obtenerUnUsuarioPorId = async (req, res) => {
+  const errors = validationResult(req);
+  console.log(errors);
+
+  if (!errors.isEmpty()) {
+    res.status(422).json({
+      msg: "Se encontraron errores en el servidor",
+      errors: errors.array(),
+    });
+  }
+
   const { statusCode, usuario } = await obtenerUnUsuarioPorIdServices(
     req.params.id
   );
@@ -18,8 +29,22 @@ const obtenerUnUsuarioPorId = async (req, res) => {
 };
 
 const crearNuevoUsuario = async (req, res) => {
+  const errors = validationResult(req);
+  console.log(errors);
+
+  if (!errors.isEmpty()) {
+    res.status(422).json({
+      msg: "Se encontraron errores en el servidor",
+      errors: errors.array(),
+    });
+  }
+
   const { statusCode, msg } = await crearUsuarioServices(req.body);
-  res.status(statusCode).json({ msg });
+  try {
+    res.status(statusCode).json({ msg });
+  } catch (error) {
+    res.status(statusCode).json({ error });
+  }
 };
 
 const iniciarSesion = async (req, res) => {

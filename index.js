@@ -4,9 +4,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("path");
 
 //middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(morgan("dev"));
 

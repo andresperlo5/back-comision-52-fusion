@@ -19,7 +19,10 @@ const obtenerUnProductoPorID = async (req, res) => {
 };
 
 const crearNuevoProducto = async (req, res) => {
-  const { msg, statusCode } = await crearNuevoProductoServices(req.body);
+  const { msg, statusCode } = await crearNuevoProductoServices(
+    req.body,
+    req.file
+  );
   res.status(statusCode).json({ msg });
 };
 

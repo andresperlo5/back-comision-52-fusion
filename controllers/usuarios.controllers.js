@@ -3,6 +3,7 @@ const {
   obtenerUnUsuarioPorIdServices,
   crearUsuarioServices,
   iniciarSesionServices,
+  recuperarContraseniaUsuarioServices,
 } = require("../services/usuarios.services");
 const { validationResult } = require("express-validator");
 
@@ -52,9 +53,21 @@ const iniciarSesion = async (req, res) => {
   res.status(statusCode).json({ msg, token, rol });
 };
 
+const recuperarContraseniaUsuario = async (req, res) => {
+  const { msg, statusCode, error } = await recuperarContraseniaUsuarioServices(
+    req.body.emailUsuario
+  );
+  try {
+    res.status(statusCode).json({ msg });
+  } catch {
+    res.status(statusCode).json({ error });
+  }
+};
+
 module.exports = {
   obtenerTodosLosUsuarios,
   obtenerUnUsuarioPorId,
   crearNuevoUsuario,
   iniciarSesion,
+  recuperarContraseniaUsuario,
 };

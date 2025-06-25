@@ -4,6 +4,7 @@ const {
   obtenerUnUsuarioPorId,
   crearNuevoUsuario,
   iniciarSesion,
+  recuperarContraseniaUsuario,
 } = require("../controllers/usuarios.controllers");
 const router = Router();
 const { check } = require("express-validator");
@@ -32,5 +33,6 @@ router.post(
   crearNuevoUsuario
 );
 router.post("/login", iniciarSesion);
+router.post("/recoveryPass", recuperarContraseniaUsuario);
 
 module.exports = router;

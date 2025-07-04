@@ -1,5 +1,6 @@
 const CarritosModel = require("../models/carrito.model");
 const ProductosModel = require("../models/producto.model");
+const { MercadoPagoConfig, Preference } = require("mercadopago");
 
 const obtenerTodosLosProductosDelCarritoServices = async (idCarrito) => {
   try {
@@ -85,8 +86,49 @@ const eliminarProductoCarritioIdServices = async (idCarrito, idProducto) => {
   }
 };
 
+const mercadoPagoServices = async () => {
+  try {
+    const client = new MercadoPagoConfig({
+      accessToken: `${process.env.ACCESS_TOKEN_MP}`,
+    });
+
+    const preference = new Preference(client);
+
+    const res = await preference.create({
+      body: {
+        items: [
+          {
+            title: "Mi producto",
+            quantity: 1,
+            unit_price: 2000,
+            currency_id: "ARS",
+          },
+        ],
+        back_urls: {
+          success: "https://www.success.com",
+          failure: "http://www.failure.com",
+          pending: "http://www.pending.com",
+        },
+      },
+    });
+
+    console.log(res);
+    return {
+      msg: "hola",
+      statusCode: 200,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      error,
+      statusCode: 500,
+    };
+  }
+};
+
 module.exports = {
   obtenerTodosLosProductosDelCarritoServices,
   agregarProductosCarritoServices,
   eliminarProductoCarritioIdServices,
+  mercadoPagoServices,
 };

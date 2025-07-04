@@ -49,7 +49,7 @@ const recuperarContrasenia = async (token, emailUsuario) => {
     <img src="https://i.gifer.com/89WP.gif">
     <b>Segui estos pasos:</b>
     <h3>Hace click en el siguiente boton</h3>
-    <a href="recuperarContrasenia/${token}">Ir a la pagina</a>
+    <a href="http://localhost:5173/recoveryPassForm?token=${token}">Ir a la pagina</a>
     `, // HTML body
     });
 

@@ -4,6 +4,7 @@ const {
   crearUsuarioServices,
   iniciarSesionServices,
   recuperarContraseniaUsuarioServices,
+  cambioDeContraseniaUsuarioTokenServices,
 } = require("../services/usuarios.services");
 const { validationResult } = require("express-validator");
 
@@ -64,10 +65,25 @@ const recuperarContraseniaUsuario = async (req, res) => {
   }
 };
 
+const cambioDeContraseniaUsuarioToken = async (req, res) => {
+  console.log("token query", req.query.token);
+  const { msg, statusCode, error } =
+    await cambioDeContraseniaUsuarioTokenServices(
+      req.query.token,
+      req.body.contrasenia
+    );
+  try {
+    res.status(statusCode).json({ msg });
+  } catch {
+    res.status(statusCode).json({ error });
+  }
+};
+
 module.exports = {
   obtenerTodosLosUsuarios,
   obtenerUnUsuarioPorId,
   crearNuevoUsuario,
   iniciarSesion,
   recuperarContraseniaUsuario,
+  cambioDeContraseniaUsuarioToken,
 };

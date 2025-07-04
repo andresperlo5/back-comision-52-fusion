@@ -136,10 +136,43 @@ const recuperarContraseniaUsuarioServices = async (emailUsuario) => {
   }
 };
 
+const cambioDeContraseniaUsuarioTokenServices = async (
+  token,
+  nuevaContrasenia
+) => {
+  console.log("token services", token);
+  console.log("pass services", nuevaContrasenia);
+  try {
+    const verificarUsuario = jwt.verify(
+      token,
+      process.env.JWT_SECRET_RECOVEY_PASS
+    );
+
+    const usuario = await UsuariosModel.findOne({
+      _id: verificarUsuario.idUsuario,
+    });
+
+    usuario.contrasenia = await argon.hash(nuevaContrasenia);
+    await usuario.save();
+
+    return {
+      msg: "Cambio de contraseña exitoso",
+      statusCode: 200,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      error,
+      statusCode: 500,
+    };
+  }
+};
+
 module.exports = {
   obtenerTodosLosUsuariosServices,
   obtenerUnUsuarioPorIdServices,
   crearUsuarioServices,
   iniciarSesionServices,
   recuperarContraseniaUsuarioServices,
+  cambioDeContraseniaUsuarioTokenServices,
 };

@@ -5,6 +5,7 @@ const {
   crearNuevoUsuario,
   iniciarSesion,
   recuperarContraseniaUsuario,
+  cambioDeContraseniaUsuarioToken,
 } = require("../controllers/usuarios.controllers");
 const router = Router();
 const { check } = require("express-validator");
@@ -20,10 +21,6 @@ router.post(
   "/",
   [
     check("nombreUsuario", "Campo NOMBRE Vacio").notEmpty(),
-    check("nombreUsuario", "ERROR: Maximo caracteres 30").isLength(
-      { min: 10 },
-      { max: 30 }
-    ),
     check("emailUsuario", "Formato Incorrecto").isEmail(),
     check(
       "contrasenia",
@@ -33,6 +30,7 @@ router.post(
   crearNuevoUsuario
 );
 router.post("/login", iniciarSesion);
-router.post("/recoveryPass", recuperarContraseniaUsuario);
+router.post("/recoveryPassEmail", recuperarContraseniaUsuario);
+router.post("/changeNewPassUser", cambioDeContraseniaUsuarioToken);
 
 module.exports = router;

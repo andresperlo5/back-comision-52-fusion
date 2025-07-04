@@ -3,6 +3,7 @@ const {
   agregarProductosCarrito,
   eliminarProductoCarritioId,
   obtenerTodosLosProductosDelCarrito,
+  pagarCarritoMp,
 } = require("../controllers/carritos.controllers");
 const authMiddleware = require("../middlewars/auth.middleware");
 const router = Router();
@@ -20,4 +21,5 @@ router.put(
   eliminarProductoCarritioId
 );
 
+router.post("/pagarCarritoMp", pagarCarritoMp);
 module.exports = router;

@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = (rolRuta) => (req, res, next) => {
   const token = req.header("auth");
+  console.log(token);
   const verificarUsuario = jwt.verify(token, process.env.JWT_SECRET);
 
   if (rolRuta === verificarUsuario.rolUsuario) {

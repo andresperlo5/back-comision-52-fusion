@@ -86,7 +86,7 @@ const eliminarProductoCarritioIdServices = async (idCarrito, idProducto) => {
   }
 };
 
-const mercadoPagoServices = async () => {
+const mercadoPagoServices = async (carrito) => {
   try {
     const client = new MercadoPagoConfig({
       accessToken: `${process.env.ACCESS_TOKEN_MP}`,
@@ -98,23 +98,33 @@ const mercadoPagoServices = async () => {
       body: {
         items: [
           {
-            title: "Mi producto",
+            title: "Celular",
+            quantity: 1,
+            unit_price: 2000,
+            currency_id: "ARS",
+          },
+          {
+            title: "Smartv",
             quantity: 1,
             unit_price: 2000,
             currency_id: "ARS",
           },
         ],
         back_urls: {
-          success: "https://www.success.com",
-          failure: "http://www.failure.com",
-          pending: "http://www.pending.com",
+          success: "https://localhost:5173/user/cart?success",
+          failure: "https://localhost:5173/user/cart?failure",
+          pending: "https://localhost:5173/user/cart?pending",
         },
       },
     });
 
     console.log(res);
+    /*  return {
+      msg: res.init_point,
+      statusCode: 200,
+    }; */
     return {
-      msg: "hola",
+      msg: res.id,
       statusCode: 200,
     };
   } catch (error) {

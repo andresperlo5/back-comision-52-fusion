@@ -4,6 +4,7 @@ const {
   crearNuevoProductoServices,
   actualizarProductoPorIDServices,
   eliminarUnProductoPorIdServices,
+  crearEditarImagenService,
 } = require("../services/productos.services");
 
 const obtenerTodosLosProductos = async (req, res) => {
@@ -19,11 +20,22 @@ const obtenerUnProductoPorID = async (req, res) => {
 };
 
 const crearNuevoProducto = async (req, res) => {
-  const { msg, statusCode } = await crearNuevoProductoServices(
+  const { msg, statusCode, idProducto } = await crearNuevoProductoServices(
     req.body,
     req.file
   );
-  res.status(statusCode).json({ msg });
+  res.status(statusCode).json({ msg, idProducto });
+};
+
+const crearEditarImagen = async (req, res) => {
+  const { statusCode, error, msg } = await crearEditarImagenService(
+    req.params.idProducto
+  );
+  try {
+    res.status(statusCode).json({ msg });
+  } catch {
+    res.status(statusCode).json({ error });
+  }
 };
 
 const actualizarProductoPorID = async (req, res) => {
@@ -46,6 +58,7 @@ module.exports = {
   obtenerTodosLosProductos,
   obtenerUnProductoPorID,
   crearNuevoProducto,
+  crearEditarImagen,
   actualizarProductoPorID,
   eliminarUnProductoPorId,
 };

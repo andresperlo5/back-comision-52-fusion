@@ -19,13 +19,35 @@ const obtenerUnProductoPorIDServices = async (idProducto) => {
 
 const crearNuevoProductoServices = async (body, file) => {
   const nuevoProducto = new ProductosModel(body);
-  const imagenCloud = await cloudinary.uploader.upload(file.path);
-  nuevoProducto.imagen = imagenCloud.secure_url;
+
   await nuevoProducto.save();
   return {
     msg: "Producto creado con exito",
+    idProducto: nuevoProducto._id,
     statusCode: 201,
   };
+};
+
+const crearEditarImagenService = async (idProducto, file) => {
+  try {
+    const producto = await ProductosModel.findById(idProducto);
+
+    const imagenCloud = await cloudinary.uploader.upload(file.path);
+    producto.imagen = imagenCloud.secure_url;
+
+    await producto.save();
+
+    return {
+      msg: "Imagen cargada",
+      statusCode: 200,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      error,
+      statusCode: 500,
+    };
+  }
 };
 
 const actualizarProductoPorIDServices = async (idProducto, body) => {
@@ -49,6 +71,7 @@ module.exports = {
   obtenerTodosLosProductosServices,
   obtenerUnProductoPorIDServices,
   crearNuevoProductoServices,
+  crearEditarImagenService,
   actualizarProductoPorIDServices,
   eliminarUnProductoPorIdServices,
 };

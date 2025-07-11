@@ -2,7 +2,8 @@ const multer = require("multer");
 const path = require("path");
 
 module.exports = multer({
-  storage: multer.diskStorage({
+  storage: multer.diskStorage({}),
+  /*  storage: multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, "public");
     },
@@ -10,15 +11,14 @@ module.exports = multer({
       const ext = path.extname(file.originalname);
       const nombreFinalImagen = `${file.fieldname}-${Date.now()}${ext}`;
       cb(null, nombreFinalImagen);
-    },
-    fileFilter: (req, file, cb) => {
-      const ext = path.extname(file.originalname);
+    }, */
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
 
-      if (ext !== ".jpg" && ext !== "png") {
-        cb(new Error("Extencion no soportada"), false);
-      }
+    if (ext !== ".jpg" && ext !== "png") {
+      cb(new Error("Extencion no soportada"), false);
+    }
 
-      cb(null, true);
-    },
-  }),
+    cb(null, true);
+  },
 });

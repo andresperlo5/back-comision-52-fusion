@@ -6,6 +6,7 @@ const {
   actualizarProductoPorID,
   eliminarUnProductoPorId,
   crearEditarImagen,
+  cambiarEstadoProducto,
 } = require("../controllers/productos.controllers");
 const authMiddleware = require("../middlewars/auth.middleware");
 const multerMiddlewars = require("../middlewars/multer.middlewars");
@@ -19,6 +20,7 @@ router.put(
   multerMiddlewars.single("imagen"),
   crearEditarImagen
 );
+router.put("/changeState/:idProducto", cambiarEstadoProducto);
 router.put("/:id", actualizarProductoPorID);
 router.delete("/:id", eliminarUnProductoPorId);
 

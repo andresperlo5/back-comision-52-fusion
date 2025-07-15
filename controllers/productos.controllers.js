@@ -5,6 +5,7 @@ const {
   actualizarProductoPorIDServices,
   eliminarUnProductoPorIdServices,
   crearEditarImagenService,
+  cambiarEstadoProductoServices,
 } = require("../services/productos.services");
 
 const obtenerTodosLosProductos = async (req, res) => {
@@ -54,6 +55,18 @@ const eliminarUnProductoPorId = async (req, res) => {
   res.status(statusCode).json({ msg });
 };
 
+const cambiarEstadoProducto = async (req, res) => {
+  const { msg, statusCode, error } = await cambiarEstadoProductoServices(
+    req.params.idProducto
+  );
+
+  try {
+    res.status(statusCode).json({ msg });
+  } catch {
+    res.status(statusCode).json({ error });
+  }
+};
+
 module.exports = {
   obtenerTodosLosProductos,
   obtenerUnProductoPorID,
@@ -61,4 +74,5 @@ module.exports = {
   crearEditarImagen,
   actualizarProductoPorID,
   eliminarUnProductoPorId,
+  cambiarEstadoProducto,
 };

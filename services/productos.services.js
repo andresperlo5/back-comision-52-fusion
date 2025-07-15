@@ -67,6 +67,32 @@ const eliminarUnProductoPorIdServices = async (idProducto) => {
   };
 };
 
+const cambiarEstadoProductoServices = async (idProducto) => {
+  try {
+    const producto = await ProductosModel.findById(idProducto);
+    console.log(producto);
+
+    if (producto.habilitado) {
+      producto.habilitado = false;
+    } else {
+      producto.habilitado = true;
+    }
+
+    console.log(producto);
+    await producto.save();
+
+    return {
+      msg: `Producto ${producto.habilitado ? "habilitado" : "deshabilitado"}`,
+      statusCode: 200,
+    };
+  } catch (error) {
+    return {
+      error,
+      statusCode: 500,
+    };
+  }
+};
+
 module.exports = {
   obtenerTodosLosProductosServices,
   obtenerUnProductoPorIDServices,
@@ -74,4 +100,5 @@ module.exports = {
   crearEditarImagenService,
   actualizarProductoPorIDServices,
   eliminarUnProductoPorIdServices,
+  cambiarEstadoProductoServices,
 };
